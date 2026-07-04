@@ -3,267 +3,257 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Practices — a field guide to attention</title>
+<title>A Field Guide to Attention</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,600&display=swap" rel="stylesheet">
 <style>
   /* ─────────────────────────────────────────────
      A FIELD GUIDE TO ATTENTION
-     Deliberately un-woo: instrument-like, editorial.
-     Signature = the mono "spec strip" on each card
-     (duration · format · posture), practices read as
-     protocols, traditions named plainly.
-     Single file, no external deps → GitHub Pages safe.
+     Naturalist's-guide identity: warm paper, editorial
+     display type (Fraunces), and a colour KEY — each
+     practice family has its own colour, used as legend,
+     filter, and card accent so a family is easy to find.
+     Curious and respectful in tone; traditions are named,
+     never disparaged. Single file → GitHub Pages safe.
      ───────────────────────────────────────────── */
 
   :root{
-    --paper:#F5F3EE;
-    --paper-2:#FBFAF6;
-    --ink:#1C1B19;
-    --muted:#6B6660;
-    --faint:#938D84;
-    --line:#DCD7CD;
-    --line-2:#E7E3DA;
-    --pine:#2E4C43;      /* primary accent — grounded, not spa */
-    --pine-soft:#E4EAE6;
-    --ochre:#8A5A1C;     /* caution only, used sparingly */
-    --ochre-soft:#F1E7D6;
-    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-    --wrap: 720px;
+    --paper:#F5F1E8;
+    --paper-2:#FCFAF4;
+    --ink:#221E18;
+    --muted:#6E675C;
+    --faint:#9C9384;
+    --line:#E1DACB;
+    --line-2:#ECE6DA;
+    --brand:#3A5A50;          /* neutral accent (tabs, links) */
+    --brand-soft:#E3ECE7;
+
+    /* practice-family colour key */
+    --fam-anchor:#37675F;   --anchor-soft:#E5ECEA;
+    --fam-body:#A85D34;     --body-soft:#F4E8DE;
+    --fam-open:#4A6A93;     --open-soft:#E5EBF2;
+    --fam-direct:#6A5385;   --direct-soft:#ECE5F2;
+    --fam-heart:#A6455A;    --heart-soft:#F5E3E7;
+    --fam-difficult:#8A6733;--difficult-soft:#F1E9DA;
+    --fam-movement:#4C7A4E; --movement-soft:#E5EFE5;
+
+    --display:"Fraunces","Iowan Old Style",Palatino,Georgia,serif;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    --wrap:740px;
   }
 
   *{box-sizing:border-box;margin:0;padding:0}
-
   html{-webkit-text-size-adjust:100%}
   body{
     font-family:var(--serif);
     color:var(--ink);
     background:var(--paper);
-    line-height:1.6;
+    line-height:1.62;
     font-size:17px;
-    padding-bottom:64px;
     -webkit-font-smoothing:antialiased;
+    padding-bottom:64px;
   }
-
   a{color:inherit}
-  ::selection{background:var(--pine);color:var(--paper)}
+  ::selection{background:var(--brand);color:#fff}
 
-  /* ── HEADER ── */
-  header{
-    border-bottom:1px solid var(--line);
-    background:var(--paper);
-    position:sticky;top:0;z-index:50;
-  }
-  .head-inner{max-width:var(--wrap);margin:0 auto;padding:16px 20px 0}
-  .brand{
-    font-family:var(--mono);
-    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    color:var(--faint);
+  /* ── MASTHEAD (scrolls away) ── */
+  .masthead{max-width:var(--wrap);margin:0 auto;padding:34px 20px 22px}
+  .eyebrow{
+    font-family:var(--sans);font-size:11px;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--faint);margin-bottom:12px;
   }
   h1.title{
-    font-size:27px;font-weight:600;line-height:1.15;
-    letter-spacing:-.01em;margin:2px 0 3px;
+    font-family:var(--display);
+    font-optical-sizing:auto;
+    font-weight:600;
+    font-size:clamp(34px,7vw,52px);
+    line-height:1.02;letter-spacing:-.015em;
+    color:var(--ink);margin-bottom:14px;
   }
-  .tagline{font-size:14.5px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+  .title em{font-style:italic;color:var(--brand)}
+  .tagline{font-size:16px;color:var(--muted);line-height:1.55;max-width:54ch}
+  /* colour key strip = hero motif + legend */
+  .key{display:flex;gap:4px;margin-top:22px}
+  .key i{height:8px;flex:1;border-radius:2px;display:block}
 
-  /* ── NAV ── */
-  nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  /* ── STICKY BAR (tabs + family filter) ── */
+  .bar{position:sticky;top:0;z-index:60;background:rgba(245,241,232,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .bar-inner{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+  nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
   nav::-webkit-scrollbar{display:none}
   nav button{
-    font-family:var(--sans);
-    font-size:13px;font-weight:500;
-    background:none;border:none;cursor:pointer;
-    color:var(--muted);
-    padding:9px 12px 11px;
-    border-bottom:2px solid transparent;
-    white-space:nowrap;
+    font-family:var(--sans);font-size:13.5px;font-weight:500;
+    background:none;border:none;cursor:pointer;color:var(--muted);
+    padding:13px 13px 12px;border-bottom:2px solid transparent;white-space:nowrap;
   }
   nav button:hover{color:var(--ink)}
-  nav button[aria-current="true"]{color:var(--ink);border-bottom-color:var(--pine)}
+  nav button[aria-current="true"]{color:var(--ink);border-bottom-color:var(--brand)}
 
-  main{max-width:var(--wrap);margin:0 auto;padding:24px 20px 0}
-
-  .view{display:none}
-  .view.active{display:block;animation:fade .25s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){
-    .view.active{animation:none}
+  /* family filter row — hidden unless Practices view */
+  .filter{display:none;gap:7px;padding:11px 0 12px;overflow-x:auto;scrollbar-width:none;border-top:1px solid var(--line-2)}
+  .filter::-webkit-scrollbar{display:none}
+  .bar.show-filter .filter{display:flex}
+  .chip{
+    font-family:var(--sans);font-size:12.5px;white-space:nowrap;cursor:pointer;
+    background:var(--paper-2);color:var(--ink);
+    border:1px solid var(--line);border-radius:20px;
+    padding:5px 12px 5px 10px;display:inline-flex;align-items:center;gap:7px;
   }
+  .chip .dot{width:9px;height:9px;border-radius:50%;background:var(--c,var(--brand));flex:none}
+  .chip[aria-pressed="true"]{background:var(--c,var(--brand));border-color:var(--c,var(--brand));color:#fff}
+  .chip[aria-pressed="true"] .dot{background:rgba(255,255,255,.85)}
 
-  /* ── SECTION HEADERS ── */
-  .lead{font-size:15px;color:var(--muted);margin-bottom:24px;max-width:60ch}
+  main{max-width:var(--wrap);margin:0 auto;padding:26px 20px 0}
+  .view{display:none}
+  .view.active{display:block}
+  @keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .view.active{animation:rise .28s ease}
+  @media (prefers-reduced-motion:reduce){.view.active{animation:none}}
+
+  .lead{font-size:15.5px;color:var(--muted);margin-bottom:8px;max-width:62ch}
   .lead strong{color:var(--ink);font-weight:600}
 
-  .type-head{
-    display:flex;align-items:baseline;gap:10px;
-    margin:34px 0 4px;
-  }
-  .type-head:first-child{margin-top:6px}
-  .type-num{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.1em}
-  .type-name{font-size:19px;font-weight:600;letter-spacing:-.01em}
-  .type-desc{font-size:13.5px;color:var(--muted);margin:2px 0 14px;max-width:58ch}
+  /* ── FAMILY SECTION HEADER ── */
+  .type-head{display:flex;align-items:center;gap:11px;margin:30px 0 3px}
+  .type-head:first-of-type{margin-top:14px}
+  .swatch{width:14px;height:14px;border-radius:4px;background:var(--fam,var(--brand));flex:none}
+  .type-name{font-family:var(--display);font-optical-sizing:auto;font-size:22px;font-weight:600;letter-spacing:-.01em}
+  .type-desc{font-size:14px;color:var(--muted);margin:3px 0 16px 25px;max-width:60ch}
 
   /* ── CARD ── */
   .card{
     background:var(--paper-2);
     border:1px solid var(--line);
-    border-radius:3px;
-    padding:20px 20px 6px;
-    margin-bottom:14px;
+    border-left:3px solid var(--fam,var(--brand));
+    border-radius:5px;
+    padding:18px 20px 6px;margin-bottom:13px;
+    transition:box-shadow .18s ease,border-color .18s ease;
   }
   .card-open{cursor:pointer}
+  .card-open:hover{box-shadow:0 2px 14px rgba(40,34,24,.06)}
   .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
-  .card-title{font-size:19px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
-  .card-source{
-    font-family:var(--sans);font-size:12px;color:var(--faint);
-    margin-top:3px;line-height:1.4;
-  }
-  .chev{font-family:var(--sans);font-size:12px;color:var(--faint);flex:none;padding-top:5px}
+  .card-title{font-family:var(--display);font-optical-sizing:auto;font-size:20px;font-weight:600;line-height:1.22;letter-spacing:-.01em}
+  .card-source{font-family:var(--sans);font-size:12px;color:var(--faint);margin-top:4px;line-height:1.45}
+  .chev{font-family:var(--sans);font-size:12px;color:var(--fam,var(--brand));flex:none;padding-top:5px;font-weight:500}
 
   .qualities{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
   .q-tag{
     font-family:var(--sans);font-size:11px;letter-spacing:.02em;
-    color:var(--pine);background:var(--pine-soft);
-    padding:3px 9px;border-radius:20px;
-    border:none;cursor:pointer;
+    color:var(--ink);background:none;
+    padding:2px 9px;border:1px solid var(--line);border-radius:20px;cursor:pointer;
   }
-  .q-tag:hover{background:var(--pine);color:var(--paper)}
+  .q-tag:hover{border-color:var(--ink)}
 
-  /* spec strip — the signature element */
   .spec{
-    font-family:var(--mono);font-size:11px;letter-spacing:.04em;
-    color:var(--muted);
-    display:flex;flex-wrap:wrap;gap:2px 14px;
-    padding:12px 0 2px;margin-top:14px;
-    border-top:1px solid var(--line-2);
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;
+    color:var(--muted);display:flex;flex-wrap:wrap;gap:3px 12px;
+    padding:9px 11px;margin-top:13px;border-radius:4px;
+    background:var(--fam-soft,var(--brand-soft));
   }
   .spec span{white-space:nowrap}
-  .spec b{color:var(--ink);font-weight:600}
+  .spec b{color:var(--fam,var(--ink));font-weight:600}
 
-  /* body (collapsed by default) */
-  .body{display:none;padding-top:4px}
-  .card.open .body{display:block}
-  .card.open .chev{transform:none}
+  .body{display:none;padding-top:2px}
+  .card.open .body{display:block;animation:rise .22s ease}
+  @media (prefers-reduced-motion:reduce){.card.open .body{animation:none}}
 
-  .steps{margin:16px 0 4px;padding-left:0;list-style:none;counter-reset:s}
-  .steps li{
-    position:relative;padding:0 0 10px 30px;
-    font-size:15.5px;line-height:1.55;counter-increment:s;
-  }
+  .steps{margin:16px 0 4px;list-style:none;counter-reset:s}
+  .steps li{position:relative;padding:0 0 11px 32px;font-size:15.5px;line-height:1.55;counter-increment:s}
   .steps li::before{
-    content:counter(s);
-    position:absolute;left:0;top:1px;
-    font-family:var(--mono);font-size:11px;font-weight:600;
-    color:var(--pine);
-    width:20px;height:20px;line-height:20px;text-align:center;
-    border:1px solid var(--line);border-radius:50%;
-    background:var(--paper);
+    content:counter(s);position:absolute;left:0;top:0;
+    font-family:var(--mono);font-size:11px;font-weight:600;color:var(--fam,var(--brand));
+    width:21px;height:21px;line-height:20px;text-align:center;
+    border:1.5px solid var(--fam,var(--brand));border-radius:50%;background:var(--paper-2);
   }
 
   .block{margin:14px 0}
-  .block .lbl{
-    font-family:var(--sans);font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
-    display:block;margin-bottom:3px;
-  }
+  .block .lbl{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);display:block;margin-bottom:3px}
   .block p{font-size:15px;line-height:1.6}
-  .block.prompt p{font-style:italic;color:#3a352f}
-
-  .pitfall{
-    margin:16px -20px 0;padding:14px 20px;
-    background:var(--ochre-soft);
-    border-top:1px solid #E4D3B4;
-  }
-  .pitfall .lbl{color:var(--ochre)}
-  .pitfall p{font-size:14.5px;line-height:1.55}
+  .block.prompt p{font-family:var(--display);font-style:italic;font-size:16.5px;color:#3a342b;line-height:1.45}
 
   .related{margin:16px 0 4px}
-  .related .lbl{
-    font-family:var(--sans);font-size:11px;font-weight:600;
-    letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
-    margin-right:6px;
-  }
-  .pill{
-    display:inline-block;font-family:var(--sans);font-size:12.5px;
-    color:var(--ink);background:var(--paper);
-    border:1px solid var(--line);border-radius:20px;
-    padding:4px 11px;margin:4px 4px 0 0;cursor:pointer;
-    text-decoration:none;
-  }
-  .pill:hover{border-color:var(--pine);color:var(--pine)}
-  .pill::before{content:"→ ";color:var(--faint)}
+  .related .lbl{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin-right:6px}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:12.5px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:4px 11px 4px 9px;margin:4px 5px 0 0;cursor:pointer;text-decoration:none}
+  .pill:hover{border-color:var(--ink)}
+  .pill .dot{width:8px;height:8px;border-radius:50%;flex:none}
+
+  .pitfall{margin:16px -20px 0;padding:14px 20px;background:#F3ECDC;border-top:1px solid #E7DBC1}
+  .pitfall .lbl{font-family:var(--sans);font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#8A6733;display:block;margin-bottom:3px}
+  .pitfall p{font-size:14.5px;line-height:1.55}
 
   /* ── QUALITIES VIEW ── */
-  .qfilter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
-  .qfilter button{
-    font-family:var(--sans);font-size:13px;
-    background:var(--paper-2);border:1px solid var(--line);
-    border-radius:20px;padding:6px 13px;cursor:pointer;color:var(--ink);
-  }
-  .qfilter button[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:var(--paper)}
+  .qfilter{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 22px}
+  .qfilter button{font-family:var(--sans);font-size:13px;background:var(--paper-2);border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer;color:var(--ink)}
+  .qfilter button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
   .qcount{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:6px}
-  #qResult .card-open{margin-bottom:10px}
+  .qfilter button[aria-pressed="true"] .qcount{color:rgba(255,255,255,.7)}
 
   /* ── GUIDES ── */
-  .guide{border:1px solid var(--line);border-radius:3px;background:var(--paper-2);margin-bottom:14px;overflow:hidden}
+  .guide{border:1px solid var(--line);border-radius:5px;background:var(--paper-2);margin-bottom:13px;overflow:hidden}
   .guide-head{padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-  .guide-title{font-size:17px;font-weight:600}
+  .guide-title{font-family:var(--display);font-optical-sizing:auto;font-size:18px;font-weight:600}
   .guide-blurb{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.5}
   .guide-body{display:none;padding:0 18px 14px}
   .guide.open .guide-body{display:block}
   .guide-note{font-size:13.5px;color:var(--muted);font-style:italic;margin:0 0 12px;padding:10px 12px;background:var(--paper);border-left:2px solid var(--line)}
   .guide-list{list-style:none}
-  .guide-list li{padding:9px 0;border-top:1px solid var(--line-2);font-size:15px;cursor:pointer;display:flex;gap:10px;align-items:baseline}
-  .guide-list li:hover .g-name{color:var(--pine)}
-  .g-idx{font-family:var(--mono);font-size:11px;color:var(--faint);flex:none}
+  .guide-list li{padding:10px 0;border-top:1px solid var(--line-2);font-size:15px;cursor:pointer;display:flex;gap:10px;align-items:center}
+  .guide-list li:hover .g-name{color:var(--brand)}
+  .g-dot{width:9px;height:9px;border-radius:50%;flex:none}
   .g-name{font-weight:500}
   .g-type{font-family:var(--sans);font-size:11px;color:var(--faint);margin-left:auto;flex:none}
 
   /* ── START HERE ── */
   .path-step{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line-2)}
   .path-step:first-of-type{border-top:none}
-  .path-num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--pine);flex:none;width:24px;padding-top:2px}
-  .path-body h3{font-size:16px;font-weight:600;cursor:pointer;display:inline-block}
-  .path-body h3:hover{color:var(--pine)}
-  .path-body p{font-size:14px;color:var(--muted);margin-top:2px;line-height:1.55}
+  .path-num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--brand);flex:none;width:24px;padding-top:3px}
+  .path-body h3{font-family:var(--display);font-optical-sizing:auto;font-size:17px;font-weight:600;cursor:pointer;display:inline-block}
+  .path-body h3:hover{color:var(--brand)}
+  .path-body p{font-size:14px;color:var(--muted);margin-top:3px;line-height:1.55}
 
   /* ── FOOTER ── */
-  footer{max-width:var(--wrap);margin:40px auto 0;padding:20px;border-top:1px solid var(--line);
-    font-family:var(--sans);font-size:12px;color:var(--faint);line-height:1.6}
-  footer a{color:var(--muted)}
-
-  .evidence-note{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.55;
-    background:var(--paper-2);border:1px solid var(--line-2);border-radius:3px;padding:12px 14px;margin:20px 0}
+  footer{max-width:var(--wrap);margin:42px auto 0;padding:20px;border-top:1px solid var(--line);font-family:var(--sans);font-size:12px;color:var(--faint);line-height:1.6}
+  .evidence-note{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.55;background:var(--paper-2);border:1px solid var(--line-2);border-radius:5px;padding:13px 15px;margin:22px 0}
+  .evidence-note strong{color:var(--ink)}
 
   @media (max-width:560px){
-    main{padding:20px 16px 0}
-    .head-inner{padding:14px 16px 0}
-    h1.title{font-size:23px}
-    .card{padding:17px 16px 4px}
+    .masthead{padding:26px 16px 18px}
+    main{padding:22px 16px 0}
+    .bar-inner{padding:0 16px}
+    .card{padding:16px 16px 4px}
     .pitfall{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
+    .type-desc{margin-left:0}
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="head-inner">
-    <div class="brand">Practices · a field guide to attention</div>
-    <h1 class="title">Mindfulness, without the incense</h1>
-    <p class="tagline">Secular attention practices, organized by what you'd actually do. Each card names where the practice comes from, what to expect, and how it tends to go wrong — no hype, no promises it can't keep.</p>
+<div class="masthead">
+  <div class="eyebrow">Secular mindfulness · a working collection</div>
+  <h1 class="title">A Field Guide<br>to <em>Attention</em></h1>
+  <p class="tagline">A growing set of contemplative practices, grouped by what you actually do. Each card gives you the steps, what tends to happen, where it comes from, and where it can quietly go sideways — an invitation to explore with clear eyes.</p>
+  <div class="key" id="keyStrip" aria-hidden="true"></div>
+</div>
+
+<header class="bar" id="bar">
+  <div class="bar-inner">
     <nav id="nav" role="tablist">
       <button data-view="practices" aria-current="true">Practices</button>
       <button data-view="qualities">Qualities</button>
       <button data-view="guides">Guides</button>
       <button data-view="start">Start here</button>
     </nav>
+    <div class="filter" id="typeFilter"></div>
   </div>
 </header>
 
 <main>
   <!-- PRACTICES ─────────────────────────────── -->
   <section class="view active" id="v-practices" role="tabpanel">
-    <p class="lead">Browse by <strong>what the practice is</strong>. Tap a card for the steps. Every practice names its lineage in plain terms — these techniques were developed over centuries, and calling them "generic" would be both inaccurate and a little rude.</p>
+    <p class="lead">Browse by <strong>what the practice is</strong>, or filter to one family above. Tap any card for the steps. Each practice names the tradition it grew from — worth knowing whose centuries of work you're drawing on, and where a practice can lead if you want to follow it further.</p>
     <div id="practiceList"></div>
     <div class="evidence-note" id="evNote"></div>
   </section>
@@ -500,7 +490,7 @@ const P = [
     ],
     q:"Could you find a single object that existed for you outside of your experiencing of it?",
     ex:"Goode presents these as experiments, not doctrines \u2014 you run them and see. What they tend to loosen is the felt sense of a solid separate self facing a solid separate world. That \u2018separate self\u2019 is also what cognitive science calls the self-model, so this first-person inquiry runs parallel to work like Metzinger\u2019s and Seth\u2019s \u2014 without either one proving the other\u2019s claims.",
-    pf:"Sliding from \u201cI can\u2019t find the object outside my experience\u201d into a grand announcement (\u201cnothing exists but consciousness\u201d). Stay with what the investigation actually shows and leave the cosmology alone \u2014 the neo-Advaita trap is using nondual talk to skip over both rigor and real life.",
+    pf:"Sliding from \u201cI can\u2019t find the object outside my experience\u201d into a sweeping conclusion (\u201cnothing exists but consciousness\u201d). It\u2019s worth staying with what the investigation actually shows and leaving the cosmology open \u2014 a common caution in modern nondual teaching is that the language can become a way to skip past both careful looking and ordinary life.",
     r:["am-i-aware","headless","open","noting"]
   },
   {
@@ -550,7 +540,7 @@ const P = [
     ],
     q:"When you investigated, what did the emotion turn out to be protecting or afraid of?",
     ex:"A structured way to feel something without being run by it. It can bring relief, and it can also intensify emotion before it eases. Go slower with strong material, and use grounding first if you're flooded.",
-    pf:"Using RAIN to get rid of the feeling faster — which is just avoidance wearing a mindfulness costume. The 'allow' step means genuinely letting it be there, not tolerating it for thirty seconds so it'll leave.",
+    pf:"Using RAIN to make the feeling leave faster, which is really just avoidance in disguise. The 'allow' step means genuinely letting it be here — not tolerating it for thirty seconds so it'll go.",
     r:["self-compassion","grounding-senses","noting","inner-critic","metta"]
   },
   {
@@ -664,12 +654,16 @@ const typeName = id => (TYPES.find(t=>t.id===id)||{}).name || id;
 const qName = id => (QUALITIES.find(q=>q.id===id)||{}).name || id;
 const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 
+/* family-colour plumbing: type id → CSS custom properties + short label */
+const famVars = tid => `--fam:var(--fam-${tid});--fam-soft:var(--${tid}-soft)`;
+const SHORT = {anchor:"Anchoring", body:"Body", open:"Open awareness", direct:"Direct path", heart:"Heart", difficult:"Difficulty", movement:"Movement & everyday"};
+
 function cardHTML(p){
   const quals = p.qual.map(q=>`<button class="q-tag" data-qual="${q}">${qName(q)}</button>`).join("");
   const steps = p.steps.map(s=>`<li>${esc(s)}</li>`).join("");
-  const rel = p.r.map(id=>{const t=byId(id); return t?`<a class="pill" data-goto-card="${id}">${esc(t.t)}</a>`:""}).join("");
+  const rel = p.r.map(id=>{const t=byId(id); return t?`<a class="pill" data-goto-card="${id}"><span class="dot" style="background:var(--fam-${t.type})"></span>${esc(t.t)}</a>`:""}).join("");
   return `
-  <div class="card card-open" id="card-${p.id}" data-card="${p.id}">
+  <div class="card card-open" id="card-${p.id}" data-card="${p.id}" style="${famVars(p.type)}">
     <div class="card-head" data-toggle>
       <div class="card-top">
         <div>
@@ -695,14 +689,34 @@ function cardHTML(p){
   </div>`;
 }
 
-/* Practices grouped by type */
+/* colour key strip (masthead) + family filter chips (sticky bar) */
+function renderKey(){
+  document.getElementById("keyStrip").innerHTML =
+    TYPES.map(t=>`<i style="background:var(--fam-${t.id})"></i>`).join("");
+}
+let activeType = null;
+function renderFilter(){
+  const all = `<button class="chip" data-type="all" aria-pressed="${!activeType}"><span class="dot"></span>All</button>`;
+  const rest = TYPES.map(t=>
+    `<button class="chip" data-type="${t.id}" style="--c:var(--fam-${t.id})" aria-pressed="${activeType===t.id}"><span class="dot"></span>${esc(SHORT[t.id]||t.name)}</button>`).join("");
+  document.getElementById("typeFilter").innerHTML = all + rest;
+}
+function applyTypeFilter(){
+  document.querySelectorAll("#practiceList .type-group").forEach(sec=>{
+    sec.style.display = (!activeType || sec.dataset.type===activeType) ? "" : "none";
+  });
+}
+
+/* Practices grouped by type (colour-coded, filterable) */
 function renderPractices(){
   const host = document.getElementById("practiceList");
-  host.innerHTML = TYPES.map((ty,i)=>{
+  host.innerHTML = TYPES.map(ty=>{
     const cards = P.filter(p=>p.type===ty.id).map(cardHTML).join("");
-    return `<div class="type-head"><span class="type-num">${String(i+1).padStart(2,"0")}</span><span class="type-name">${esc(ty.name)}</span></div>
-            <p class="type-desc">${esc(ty.desc)}</p>${cards}`;
+    return `<section class="type-group" data-type="${ty.id}" style="${famVars(ty.id)}">
+      <div class="type-head"><span class="swatch"></span><span class="type-name">${esc(ty.name)}</span></div>
+      <p class="type-desc">${esc(ty.desc)}</p>${cards}</section>`;
   }).join("");
+  applyTypeFilter();
   document.getElementById("evNote").innerHTML =
     "<strong>On the evidence.</strong> Programs like MBSR and MBCT have a real research base — MBCT, for instance, is associated with reduced relapse in recurrent depression. But effects are typically modest, vary between people, and much of the popular claim-making runs ahead of the data. And a few families here — the direct-path inquiries especially — sit largely outside that clinical literature: they're contemplative first-person investigations, best judged on the quality of the looking rather than on outcome studies, and their framing of consciousness is a claim to test in experience, not an established finding. Treat every card as a practice worth trying, not a guaranteed outcome.";
 }
@@ -727,7 +741,7 @@ function renderQualities(){
 function renderGuides(){
   document.getElementById("guideList").innerHTML = GUIDES.map(g=>{
     const items = g.cards.map((id,i)=>{const c=byId(id); if(!c)return"";
-      return `<li data-goto-card="${id}"><span class="g-idx">${i+1}</span><span class="g-name">${esc(c.t)}</span><span class="g-type">${esc(typeName(c.type))}</span></li>`;
+      return `<li data-goto-card="${id}"><span class="g-dot" style="background:var(--fam-${c.type})"></span><span class="g-name">${esc(c.t)}</span><span class="g-type">${esc(typeName(c.type))}</span></li>`;
     }).join("");
     return `<div class="guide" data-guide>
       <div class="guide-head" data-guide-toggle>
@@ -781,12 +795,13 @@ function showView(name){
   });
   document.querySelectorAll("#nav button").forEach(b=>
     b.setAttribute("aria-current", b.dataset.view===name ? "true":"false"));
+  document.getElementById("bar").classList.toggle("show-filter", name==="practices");
   window.scrollTo({top:0,behavior:"instant"});
 }
 
 function openCard(id){
+  activeType=null; renderFilter(); applyTypeFilter();   // clear filter so the card is visible
   showView("practices");
-  // ensure qualities filter isn't hiding it: practices view always has all cards
   requestAnimationFrame(()=>{
     const el=document.getElementById("card-"+id);
     if(el){
@@ -806,6 +821,9 @@ document.addEventListener("click", e=>{
 
   const gotoCard = e.target.closest("[data-goto-card]");
   if(gotoCard){ e.preventDefault(); openCard(gotoCard.dataset.gotoCard); return; }
+
+  const chip = e.target.closest(".chip");
+  if(chip){ activeType = chip.dataset.type==="all" ? null : chip.dataset.type; renderFilter(); applyTypeFilter(); return; }
 
   const qtag = e.target.closest(".q-tag");
   if(qtag){ e.stopPropagation(); activeQual=qtag.dataset.qual; renderQualities(); showView("qualities"); return; }
@@ -840,12 +858,15 @@ function handleHash(){
 window.addEventListener("hashchange",handleHash);
 
 /* init */
+renderKey();
+renderFilter();
 renderPractices();
 renderQualities();
 renderGuides();
 renderPath();
 renderFoot();
 checkRefs();
+document.getElementById("bar").classList.add("show-filter");
 handleHash();
 </script>
 </body>
