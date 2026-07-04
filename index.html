@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practices — a field guide to attention</title>
+<style>
+  /* ─────────────────────────────────────────────
+     A FIELD GUIDE TO ATTENTION
+     Deliberately un-woo: instrument-like, editorial.
+     Signature = the mono "spec strip" on each card
+     (duration · format · posture), practices read as
+     protocols, traditions named plainly.
+     Single file, no external deps → GitHub Pages safe.
+     ───────────────────────────────────────────── */
+
+  :root{
+    --paper:#F5F3EE;
+    --paper-2:#FBFAF6;
+    --ink:#1C1B19;
+    --muted:#6B6660;
+    --faint:#938D84;
+    --line:#DCD7CD;
+    --line-2:#E7E3DA;
+    --pine:#2E4C43;      /* primary accent — grounded, not spa */
+    --pine-soft:#E4EAE6;
+    --ochre:#8A5A1C;     /* caution only, used sparingly */
+    --ochre-soft:#F1E7D6;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    --wrap: 720px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--serif);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    font-size:17px;
+    padding-bottom:64px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit}
+  ::selection{background:var(--pine);color:var(--paper)}
+
+  /* ── HEADER ── */
+  header{
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky;top:0;z-index:50;
+  }
+  .head-inner{max-width:var(--wrap);margin:0 auto;padding:16px 20px 0}
+  .brand{
+    font-family:var(--mono);
+    font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--faint);
+  }
+  h1.title{
+    font-size:27px;font-weight:600;line-height:1.15;
+    letter-spacing:-.01em;margin:2px 0 3px;
+  }
+  .tagline{font-size:14.5px;color:var(--muted);line-height:1.5;margin-bottom:14px}
+
+  /* ── NAV ── */
+  nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+  nav::-webkit-scrollbar{display:none}
+  nav button{
+    font-family:var(--sans);
+    font-size:13px;font-weight:500;
+    background:none;border:none;cursor:pointer;
+    color:var(--muted);
+    padding:9px 12px 11px;
+    border-bottom:2px solid transparent;
+    white-space:nowrap;
+  }
+  nav button:hover{color:var(--ink)}
+  nav button[aria-current="true"]{color:var(--ink);border-bottom-color:var(--pine)}
+
+  main{max-width:var(--wrap);margin:0 auto;padding:24px 20px 0}
+
+  .view{display:none}
+  .view.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){
+    .view.active{animation:none}
+  }
+
+  /* ── SECTION HEADERS ── */
+  .lead{font-size:15px;color:var(--muted);margin-bottom:24px;max-width:60ch}
+  .lead strong{color:var(--ink);font-weight:600}
+
+  .type-head{
+    display:flex;align-items:baseline;gap:10px;
+    margin:34px 0 4px;
+  }
+  .type-head:first-child{margin-top:6px}
+  .type-num{font-family:var(--mono);font-size:11px;color:var(--faint);letter-spacing:.1em}
+  .type-name{font-size:19px;font-weight:600;letter-spacing:-.01em}
+  .type-desc{font-size:13.5px;color:var(--muted);margin:2px 0 14px;max-width:58ch}
+
+  /* ── CARD ── */
+  .card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:20px 20px 6px;
+    margin-bottom:14px;
+  }
+  .card-open{cursor:pointer}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:14px}
+  .card-title{font-size:19px;font-weight:600;line-height:1.25;letter-spacing:-.01em}
+  .card-source{
+    font-family:var(--sans);font-size:12px;color:var(--faint);
+    margin-top:3px;line-height:1.4;
+  }
+  .chev{font-family:var(--sans);font-size:12px;color:var(--faint);flex:none;padding-top:5px}
+
+  .qualities{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .q-tag{
+    font-family:var(--sans);font-size:11px;letter-spacing:.02em;
+    color:var(--pine);background:var(--pine-soft);
+    padding:3px 9px;border-radius:20px;
+    border:none;cursor:pointer;
+  }
+  .q-tag:hover{background:var(--pine);color:var(--paper)}
+
+  /* spec strip — the signature element */
+  .spec{
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+    color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:2px 14px;
+    padding:12px 0 2px;margin-top:14px;
+    border-top:1px solid var(--line-2);
+  }
+  .spec span{white-space:nowrap}
+  .spec b{color:var(--ink);font-weight:600}
+
+  /* body (collapsed by default) */
+  .body{display:none;padding-top:4px}
+  .card.open .body{display:block}
+  .card.open .chev{transform:none}
+
+  .steps{margin:16px 0 4px;padding-left:0;list-style:none;counter-reset:s}
+  .steps li{
+    position:relative;padding:0 0 10px 30px;
+    font-size:15.5px;line-height:1.55;counter-increment:s;
+  }
+  .steps li::before{
+    content:counter(s);
+    position:absolute;left:0;top:1px;
+    font-family:var(--mono);font-size:11px;font-weight:600;
+    color:var(--pine);
+    width:20px;height:20px;line-height:20px;text-align:center;
+    border:1px solid var(--line);border-radius:50%;
+    background:var(--paper);
+  }
+
+  .block{margin:14px 0}
+  .block .lbl{
+    font-family:var(--sans);font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    display:block;margin-bottom:3px;
+  }
+  .block p{font-size:15px;line-height:1.6}
+  .block.prompt p{font-style:italic;color:#3a352f}
+
+  .pitfall{
+    margin:16px -20px 0;padding:14px 20px;
+    background:var(--ochre-soft);
+    border-top:1px solid #E4D3B4;
+  }
+  .pitfall .lbl{color:var(--ochre)}
+  .pitfall p{font-size:14.5px;line-height:1.55}
+
+  .related{margin:16px 0 4px}
+  .related .lbl{
+    font-family:var(--sans);font-size:11px;font-weight:600;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--faint);
+    margin-right:6px;
+  }
+  .pill{
+    display:inline-block;font-family:var(--sans);font-size:12.5px;
+    color:var(--ink);background:var(--paper);
+    border:1px solid var(--line);border-radius:20px;
+    padding:4px 11px;margin:4px 4px 0 0;cursor:pointer;
+    text-decoration:none;
+  }
+  .pill:hover{border-color:var(--pine);color:var(--pine)}
+  .pill::before{content:"→ ";color:var(--faint)}
+
+  /* ── QUALITIES VIEW ── */
+  .qfilter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .qfilter button{
+    font-family:var(--sans);font-size:13px;
+    background:var(--paper-2);border:1px solid var(--line);
+    border-radius:20px;padding:6px 13px;cursor:pointer;color:var(--ink);
+  }
+  .qfilter button[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:var(--paper)}
+  .qcount{font-family:var(--mono);font-size:11px;color:var(--faint);margin-left:6px}
+  #qResult .card-open{margin-bottom:10px}
+
+  /* ── GUIDES ── */
+  .guide{border:1px solid var(--line);border-radius:3px;background:var(--paper-2);margin-bottom:14px;overflow:hidden}
+  .guide-head{padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .guide-title{font-size:17px;font-weight:600}
+  .guide-blurb{font-size:13.5px;color:var(--muted);margin-top:3px;line-height:1.5}
+  .guide-body{display:none;padding:0 18px 14px}
+  .guide.open .guide-body{display:block}
+  .guide-note{font-size:13.5px;color:var(--muted);font-style:italic;margin:0 0 12px;padding:10px 12px;background:var(--paper);border-left:2px solid var(--line)}
+  .guide-list{list-style:none}
+  .guide-list li{padding:9px 0;border-top:1px solid var(--line-2);font-size:15px;cursor:pointer;display:flex;gap:10px;align-items:baseline}
+  .guide-list li:hover .g-name{color:var(--pine)}
+  .g-idx{font-family:var(--mono);font-size:11px;color:var(--faint);flex:none}
+  .g-name{font-weight:500}
+  .g-type{font-family:var(--sans);font-size:11px;color:var(--faint);margin-left:auto;flex:none}
+
+  /* ── START HERE ── */
+  .path-step{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line-2)}
+  .path-step:first-of-type{border-top:none}
+  .path-num{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--pine);flex:none;width:24px;padding-top:2px}
+  .path-body h3{font-size:16px;font-weight:600;cursor:pointer;display:inline-block}
+  .path-body h3:hover{color:var(--pine)}
+  .path-body p{font-size:14px;color:var(--muted);margin-top:2px;line-height:1.55}
+
+  /* ── FOOTER ── */
+  footer{max-width:var(--wrap);margin:40px auto 0;padding:20px;border-top:1px solid var(--line);
+    font-family:var(--sans);font-size:12px;color:var(--faint);line-height:1.6}
+  footer a{color:var(--muted)}
+
+  .evidence-note{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.55;
+    background:var(--paper-2);border:1px solid var(--line-2);border-radius:3px;padding:12px 14px;margin:20px 0}
+
+  @media (max-width:560px){
+    main{padding:20px 16px 0}
+    .head-inner{padding:14px 16px 0}
+    h1.title{font-size:23px}
+    .card{padding:17px 16px 4px}
+    .pitfall{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="brand">Practices · a field guide to attention</div>
+    <h1 class="title">Mindfulness, without the incense</h1>
+    <p class="tagline">Secular attention practices, organized by what you'd actually do. Each card names where the practice comes from, what to expect, and how it tends to go wrong — no hype, no promises it can't keep.</p>
+    <nav id="nav" role="tablist">
+      <button data-view="practices" aria-current="true">Practices</button>
+      <button data-view="qualities">Qualities</button>
+      <button data-view="guides">Guides</button>
+      <button data-view="start">Start here</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- PRACTICES ─────────────────────────────── -->
+  <section class="view active" id="v-practices" role="tabpanel">
+    <p class="lead">Browse by <strong>what the practice is</strong>. Tap a card for the steps. Every practice names its lineage in plain terms — these techniques were developed over centuries, and calling them "generic" would be both inaccurate and a little rude.</p>
+    <div id="practiceList"></div>
+    <div class="evidence-note" id="evNote"></div>
+  </section>
+
+  <!-- QUALITIES ─────────────────────────────── -->
+  <section class="view" id="v-qualities" role="tabpanel">
+    <p class="lead">Practices don't map one-to-one to outcomes, but each tends to <strong>develop certain capacities</strong> more than others. Pick a quality to see the practices most associated with it.</p>
+    <div class="qfilter" id="qFilter"></div>
+    <div id="qResult"></div>
+  </section>
+
+  <!-- GUIDES ────────────────────────────────── -->
+  <section class="view" id="v-guides" role="tabpanel">
+    <p class="lead">Not "which practice is best" but <strong>"what do I do right now."</strong> Situational sets for specific moments. Tap a practice to jump to its card.</p>
+    <div id="guideList"></div>
+  </section>
+
+  <!-- START HERE ────────────────────────────── -->
+  <section class="view" id="v-start" role="tabpanel">
+    <p class="lead">A two-week on-ramp. Short, in order, no equipment. The goal isn't to feel calm — it's to <strong>get familiar with paying attention on purpose</strong> and noticing when you've drifted. Drifting is not failure; noticing the drift is the rep.</p>
+    <div id="pathList"></div>
+  </section>
+
+  <footer>
+    <span id="footStats"></span><br>
+    A personal, non-commercial reference. Practice descriptions are synthesized in plain language and attributed to their traditions and teachers; they are not medical advice and don't replace a qualified teacher or clinician. Clinical claims are kept deliberately modest — "associated with," not "cures."
+  </footer>
+</main>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   DATA MODEL
+   Practice type = primary axis. Source = a field (tradition /
+   teacher / program), NOT an organizer. Qualities = secondary
+   axis. Pitfall is always the last thing in a card body.
+   Cross-refs (r) are authored symmetrically and checked at load.
+   ══════════════════════════════════════════════════════════ */
+
+/* Practice TYPES — the primary browse axis (ordered) */
+const TYPES = [
+  {id:"anchor",  name:"Anchoring & concentration", desc:"Rest attention on one steady object — breath, sound, sensation — and return to it when the mind wanders. The foundational skill everything else is built on."},
+  {id:"body",    name:"Body awareness",            desc:"Attention turned to physical sensation, from a slow full-body sweep to grounding through the senses. Also the family most likely to surface difficult material — go slow, and stopping is always allowed."},
+  {id:"open",    name:"Open awareness",            desc:"Instead of one anchor, notice whatever arises — thoughts, sounds, feelings — without chasing or pushing them away. Usually built after some anchoring stability."},
+  {id:"direct",  name:"Self-inquiry & the direct path", desc:"Turn attention back on the one who is aware, and on the nature of experience itself. First-person experiments from the Direct Path (Atmananda Krishna Menon → Greg Goode, Rupert Spira) and Ramana's self-inquiry — offered as things to test in your own experience, not beliefs to adopt. Best approached with some anchoring stability already in place."},
+  {id:"heart",   name:"Heart practices",           desc:"Deliberately cultivating goodwill, compassion, and equanimity toward yourself and others. From the brahmaviharas; the least 'blank-mind' family of practices."},
+  {id:"difficult",name:"Working with difficulty",  desc:"Structured ways to meet pain, strong emotion, and self-criticism without being flooded or numbing out."},
+  {id:"movement",name:"Movement & everyday",       desc:"Attention carried into motion and ordinary activity — walking, brief resets you can do at a desk, standing in a queue."}
+];
+
+/* QUALITIES — the secondary axis */
+const QUALITIES = [
+  {id:"attention",  name:"Attention"},
+  {id:"grounding",  name:"Grounding"},
+  {id:"body-aware", name:"Body awareness"},
+  {id:"equanimity", name:"Equanimity"},
+  {id:"non-striving",name:"Non-striving"},
+  {id:"self-comp",  name:"Self-compassion"},
+  {id:"goodwill",   name:"Goodwill"},
+  {id:"clarity",    name:"Seeing clearly"},
+  {id:"self-insight",name:"Insight into self"},
+  {id:"regulation", name:"Calming the system"}
+];
+
+/* PRACTICES.  keys:
+   id, t(title), type, src(source/tradition), qual[], 
+   spec{dur,fmt,pos}, steps[], q(prompt), ex(what to expect),
+   pf(pitfall — always last), r[](cross-refs, symmetric)      */
+const P = [
+  {
+    id:"breath", t:"Breath as anchor", type:"anchor",
+    src:"Ānāpānasati (Buddhist breath awareness); secularized in MBSR — Jon Kabat-Zinn",
+    qual:["attention","grounding","regulation"],
+    spec:{dur:"5–20 min", fmt:"Guided or silent", pos:"Seated, eyes closed or soft gaze"},
+    steps:[
+      "Sit so you're upright but not rigid. Let the hands rest.",
+      "Find where the breath is clearest — nostrils, chest, or belly — and let attention settle there.",
+      "Don't control the breath. Just feel this one, then the next.",
+      "When you notice you've wandered — and you will, constantly — that noticing is the moment the practice is working. Gently return.",
+      "Repeat for the time you set. The returning is the exercise, not the staying."
+    ],
+    q:"How did you treat yourself the moment you noticed you'd drifted — with a small snap of judgment, or a plain return?",
+    ex:"Your mind will wander a lot. That's normal and not a sign you're bad at it — a session can be dozens of returns. You may feel calmer, or nothing in particular, or briefly more aware of how busy your mind is. All fine.",
+    pf:"Trying to force calm or 'clear your mind.' The goal is not a blank mind or a relaxed one — it's noticing where attention went and coming back. Chasing calm turns a practice into one more thing to fail at.",
+    r:["sound","scan","breathing-space","noting","open","walking"]
+  },
+  {
+    id:"sound", t:"Sound as anchor", type:"anchor",
+    src:"Common to Theravāda & Zen; secular framing in MBSR — Kabat-Zinn",
+    qual:["attention","non-striving","grounding"],
+    spec:{dur:"5–15 min", fmt:"Silent, in any environment", pos:"Seated or standing, eyes closed"},
+    steps:[
+      "Let your ears do the work. Don't hunt for sounds — let them arrive.",
+      "Notice sounds as raw hearing: pitch, texture, distance, silence between them.",
+      "Resist naming and storytelling ('that's a car, they're driving too fast'). Just the hearing.",
+      "When you catch yourself in thought, return to simply listening.",
+      "Let even unpleasant or intrusive sounds be part of the field rather than interruptions to it."
+    ],
+    q:"Which sounds did you find yourself resisting, and what happened when you let them be there?",
+    ex:"Often easier than breath for people who get self-conscious watching their own breathing. A useful anchor when you can't close your eyes or sit still.",
+    pf:"Turning it into a labeling game — cataloguing every sound. The practice is bare hearing, not identification.",
+    r:["breath","open"]
+  },
+  {
+    id:"scan", t:"Body scan", type:"body",
+    src:"MBSR — Jon Kabat-Zinn (adapted from Burmese vipassanā sweeping)",
+    qual:["body-aware","grounding","equanimity"],
+    spec:{dur:"10–45 min", fmt:"Usually guided", pos:"Lying down or seated"},
+    steps:[
+      "Lie down or sit comfortably. Let the body be heavy.",
+      "Bring attention to one region — often the feet — and feel whatever is there: warmth, pressure, tingling, or nothing.",
+      "You're not trying to relax the area or change it. You're feeling it as it is.",
+      "Move slowly through the body, region by region, at whatever pace the guide sets or you choose.",
+      "If a region feels numb or blank, that's data too. Note it and move on.",
+      "End by sensing the body as one whole for a few breaths."
+    ],
+    q:"Where did the body hold more than you expected — and could you feel it without immediately trying to fix it?",
+    ex:"Sleepiness is common, especially lying down. So is restlessness. Some people find it deeply grounding; others find lying still with sensation surprisingly hard.",
+    pf:"Because it turns attention deep into the body, the scan can surface tension, old injury, or trauma-related sensation. If it does, you can open your eyes, shorten it, sit up, or stop, and ground through the senses. Pushing through distress is not the assignment.",
+    r:["breath","grounding-senses","mountain","walking"]
+  },
+  {
+    id:"grounding-senses", t:"Five senses grounding", type:"body",
+    src:"Sensory grounding; widely used in trauma-informed and DBT-adjacent settings",
+    qual:["grounding","regulation","body-aware"],
+    spec:{dur:"1–3 min", fmt:"Eyes open, anywhere", pos:"Any — seated, standing, walking"},
+    steps:[
+      "Name five things you can see. Actually look at them.",
+      "Four things you can hear.",
+      "Three things you can physically feel — feet on floor, chair, air on skin.",
+      "Two things you can smell (or two you like the smell of).",
+      "One slow breath, and notice you're here, now."
+    ],
+    q:"What shifted, even slightly, between the first sense and the last?",
+    ex:"Fast and reliable. Good when you're anxious, spiralling, or dissociating and a closed-eye practice would make things worse. Eyes stay open on purpose.",
+    pf:"Expecting it to erase anxiety. It's a way to re-anchor in the present when your system is escalating — not an off-switch. Used as a quick reset, it does its job.",
+    r:["scan","breathing-space","rain"]
+  },
+  {
+    id:"noting", t:"Noting / mental labeling", type:"open",
+    src:"Mahāsi Sayadaw vipassanā lineage; secularized by Shinzen Young and others",
+    qual:["clarity","attention","equanimity"],
+    spec:{dur:"10–30 min", fmt:"Silent", pos:"Seated, eyes closed"},
+    steps:[
+      "Settle with the breath for a minute to steady attention.",
+      "As experiences arise, give each a soft, one-word mental note: 'thinking,' 'hearing,' 'planning,' 'aching,' 'wanting.'",
+      "Keep the label light and neutral — a whisper, not an announcement.",
+      "After noting, let the experience be, and note the next thing.",
+      "If you get lost in a thought, just note 'lost' or 'thinking' when you resurface, and continue."
+    ],
+    q:"Did labeling create a little space between you and the experience — or did the labeling itself become another thing to note?",
+    ex:"Helps you see experience as a series of passing events rather than a solid stream. Some people find labels clarifying; others find them intrusive. Both are common.",
+    pf:"Over-labeling — turning it into rapid-fire commentary that crowds out the actual noticing. The note points at experience; it isn't the point.",
+    r:["breath","open","rain","inner-critic","objects-aware"]
+  },
+  {
+    id:"open", t:"Open awareness", type:"open",
+    src:"'Choiceless awareness' (Krishnamurti); open monitoring in MBSR & insight traditions",
+    qual:["equanimity","clarity","non-striving"],
+    spec:{dur:"10–30 min", fmt:"Silent", pos:"Seated, eyes closed or soft gaze"},
+    steps:[
+      "Begin anchored on the breath until attention feels reasonably steady.",
+      "Then drop the anchor. Let attention be open, receiving whatever is most prominent — a sound, a sensation, a thought, a feeling.",
+      "Don't go looking for experiences and don't push any away. Let them come and go on their own.",
+      "Notice the tendency to grab or resist. That noticing is part of it.",
+      "If you feel scattered or lost, return to the breath anchor for a while, then open again."
+    ],
+    q:"When something uncomfortable arose, what was your first move — toward it, away from it, or simply aware of it?",
+    ex:"Can feel spacious and easy on some days and formless or agitating on others. It generally works better once you have some anchoring stability to fall back on.",
+    pf:"Attempting it with no concentration base, so it collapses into ordinary mind-wandering with a meditative label on top. If you're just daydreaming, return to an anchor first.",
+    r:["noting","sound","breath","mountain","self-inquiry","am-i-aware","objects-aware"]
+  },
+  {
+    id:"self-inquiry", t:"Self-inquiry — \u201cWho am I?\u201d", type:"direct",
+    src:"\u0100tma-vich\u0101ra \u2014 Ramana Maharshi; the seed of direct-path inquiry",
+    qual:["self-insight","clarity","non-striving"],
+    spec:{dur:"10\u201330 min", fmt:"Silent, question-led", pos:"Seated, eyes closed"},
+    steps:[
+      "Settle briefly until attention is reasonably steady.",
+      "Notice the sense of \u201cI\u201d \u2014 the felt sense of being the one who is here, thinking, looking.",
+      "Ask, without answering in words: \u201cWho is aware of this? Who am I?\u201d Then look toward wherever the sense of \u201cI\u201d seems to arise from.",
+      "Meet every thought that comes with the same turn: \u201cTo whom does this occur? To me \u2014 and who am I?\u201d Then look again.",
+      "Don\u2019t chase a verbal answer. Let the looking itself do the work, and rest wherever the question leaves you."
+    ],
+    q:"When you looked for the \u201cI,\u201d did you find a thing \u2014 or only more looking?",
+    ex:"Often the \u201cI\u201d can\u2019t be located as an object: you find sensations, thoughts, a sense of presence, but no findable center. That not-finding is the practice working, not failing. It can feel spacious, ordinary, or briefly disorienting depending on the day.",
+    pf:"Turning it into a philosophy debate in your head, or hunting for a dramatic realization. It\u2019s a plain investigation \u2014 look, don\u2019t conclude. Sustained self-inquiry can occasionally tip into feeling unreal or detached; if that happens, stop, open your eyes, and ground through the senses rather than pushing on.",
+    r:["am-i-aware","headless","open"]
+  },
+  {
+    id:"am-i-aware", t:"\u201cAm I aware?\u201d \u2014 resting as awareness", type:"direct",
+    src:"Rupert Spira (contemplative Advaita); the direct path\u2019s \u201cawareness of being\u201d",
+    qual:["self-insight","non-striving","equanimity"],
+    spec:{dur:"10\u201320 min", fmt:"Silent, question-led", pos:"Seated, eyes closed or soft gaze"},
+    steps:[
+      "Sit and let attention settle for a moment.",
+      "Ask yourself once, gently: \u201cAm I aware?\u201d",
+      "Notice the answer is a clear, wordless \u201cyes\u201d \u2014 you already know that you\u2019re aware. Turn toward that knowing.",
+      "Rather than attending to what you\u2019re aware of, rest as the awareness itself \u2014 the simple fact of being conscious, prior to any particular content.",
+      "When thinking pulls you back, ask again \u2014 \u201cAm I aware?\u201d \u2014 and settle back into the knowing."
+    ],
+    q:"What was it like to be interested in awareness itself, rather than in what it was showing you?",
+    ex:"This shifts the figure of attention from objects to the awareness they appear in. Some sessions feel open and restful; others feel like there\u2019s \u201cnothing to find\u201d \u2014 which is fine, since the point isn\u2019t a special state. One of the gentler direct-path pointers, and a good first one.",
+    pf:"Trying to \u201csee\u201d awareness as though it were another object, or manufacturing a blissful aware-feeling. Awareness isn\u2019t a thing you can hold at arm\u2019s length \u2014 you\u2019re just noticing the obvious fact that you\u2019re conscious and relaxing into it.",
+    r:["self-inquiry","headless","objects-aware","open"]
+  },
+  {
+    id:"headless", t:"The headless experiment", type:"direct",
+    src:"Douglas Harding \u2014 On Having No Head (the Headless Way)",
+    qual:["self-insight","clarity","non-striving"],
+    spec:{dur:"3\u201310 min", fmt:"Eyes open, first-person looking", pos:"Any"},
+    steps:[
+      "Point at something across the room. Notice you can see it.",
+      "Point at your foot, then your torso, then your chest \u2014 you can see each of them.",
+      "Now turn the finger around and point back at where you\u2019d say your own face is. Actually look.",
+      "Notice what\u2019s here on present evidence, from your own point of view: not a face looking out, but an open space in which the room appears.",
+      "Rest with that \u2014 the world showing up in the \u2018space\u2019 where you expected to find your head."
+    ],
+    q:"On present evidence \u2014 not from memory or a mirror \u2014 what do you actually find where you\u2019re looking from?",
+    ex:"A playful, almost visual experiment rather than a mood practice. Harding\u2019s point isn\u2019t that you literally have no head \u2014 it\u2019s about the first-person view, where you can\u2019t see your own face and the world seems to appear in its place. Some find it a striking little shift; some find it a gimmick. Both are fair.",
+    pf:"Arguing with the premise (\u201cobviously I have a head\u201d) and missing the actual instruction, which is only about what shows up from your own point of view right now. It points at a perspective, not a metaphysical claim to defend or debunk.",
+    r:["am-i-aware","self-inquiry","objects-aware"]
+  },
+  {
+    id:"objects-aware", t:"Objects in awareness \u2014 an experiment", type:"direct",
+    src:"Greg Goode \u2014 The Direct Path: A User Guide",
+    qual:["self-insight","clarity","equanimity"],
+    spec:{dur:"10\u201320 min", fmt:"Silent, investigative", pos:"Seated"},
+    steps:[
+      "Pick one simple experience happening now \u2014 a sound, a patch of color, a bodily sensation.",
+      "Try to locate it outside of your experience of it. Can you find the sound anywhere except in hearing? The color anywhere except in seeing?",
+      "Notice that every \u2018object\u2019 you examine is only ever met as experience \u2014 as something appearing in awareness, never apart from it.",
+      "Do the same with the sense of a separate \u201cme\u201d here looking at \u201cit\u201d over there. Investigate whether that boundary is itself just another appearance.",
+      "Don\u2019t force a conclusion. Keep the investigation light and curious, and rest in whatever it opens."
+    ],
+    q:"Could you find a single object that existed for you outside of your experiencing of it?",
+    ex:"Goode presents these as experiments, not doctrines \u2014 you run them and see. What they tend to loosen is the felt sense of a solid separate self facing a solid separate world. That \u2018separate self\u2019 is also what cognitive science calls the self-model, so this first-person inquiry runs parallel to work like Metzinger\u2019s and Seth\u2019s \u2014 without either one proving the other\u2019s claims.",
+    pf:"Sliding from \u201cI can\u2019t find the object outside my experience\u201d into a grand announcement (\u201cnothing exists but consciousness\u201d). Stay with what the investigation actually shows and leave the cosmology alone \u2014 the neo-Advaita trap is using nondual talk to skip over both rigor and real life.",
+    r:["am-i-aware","headless","open","noting"]
+  },
+  {
+    id:"metta", t:"Loving-kindness (metta)", type:"heart",
+    src:"Mettā / brahmavihāras (Buddhist); secular treatment by Sharon Salzberg",
+    qual:["goodwill","self-comp","regulation"],
+    spec:{dur:"10–20 min", fmt:"Guided or silent, with phrases", pos:"Seated, eyes closed"},
+    steps:[
+      "Settle briefly with the breath.",
+      "Bring to mind someone it's easy to feel warmth for — a friend, a child, a pet. Notice the felt sense of goodwill.",
+      "Silently offer a few simple phrases: 'May you be safe. May you be well. May you be at ease.' Use words that feel honest to you.",
+      "Extend the same phrases to yourself, then to a neutral person, then to someone difficult (start mild), then to all beings — at whatever pace you can manage sincerely.",
+      "If the warmth isn't there, don't fake it. Offering the wish is the practice, even when the feeling lags."
+    ],
+    q:"Which direction was hardest — yourself, or someone difficult — and what did that difficulty feel like?",
+    ex:"Feelings may or may not show up, and forcing them backfires. Directing kindness at yourself is surprisingly hard for many people; starting with an easy person and coming to yourself later can help.",
+    pf:"Treating flat or absent feeling as failure, or using the phrases to paper over real anger you haven't acknowledged. This isn't positive thinking — it's practising the intention, not manufacturing an emotion.",
+    r:["self-compassion","rain","mountain"]
+  },
+  {
+    id:"self-compassion", t:"Self-compassion break", type:"heart",
+    src:"Kristin Neff & Christopher Germer (Mindful Self-Compassion)",
+    qual:["self-comp","regulation","goodwill"],
+    spec:{dur:"2–5 min", fmt:"Silent, in the moment", pos:"Any"},
+    steps:[
+      "Notice you're having a hard time. Name it plainly: 'This is a moment of difficulty' or 'this hurts.'",
+      "Remind yourself it's shared: 'Struggle is part of being human. I'm not the only one.'",
+      "Offer yourself some kindness — a hand on the chest if that helps — and a phrase you'd mean: 'May I be kind to myself right now.'",
+      "That's the whole practice. Three moves: mindfulness, common humanity, kindness."
+    ],
+    q:"Would you have spoken to a friend in your situation the way you just spoke to yourself?",
+    ex:"Designed for use in the middle of a bad moment, not on a cushion. Some people feel a small easing; some feel resistance or even 'backdraft' — old grief surfacing when kindness lands. That can be normal, and worth support if it's intense.",
+    pf:"Self-compassion mistaken for self-pity or letting yourself off the hook. It's not indulgence — research associates it with more responsibility-taking and resilience, not less. It's how you treat a friend who messed up: honest and kind at once.",
+    r:["metta","rain","inner-critic"]
+  },
+  {
+    id:"rain", t:"RAIN — meeting difficult emotion", type:"difficult",
+    src:"RAIN acronym popularized by Michele McDonald & Tara Brach",
+    qual:["equanimity","self-comp","clarity"],
+    spec:{dur:"5–15 min", fmt:"Silent, when an emotion is live", pos:"Seated"},
+    steps:[
+      "Recognize what's here. Name the emotion: 'anger,' 'fear,' 'shame.'",
+      "Allow it to be present. You don't have to like it or fix it — just stop fighting that it's here.",
+      "Investigate with kindness. Where do you feel it in the body? What does it believe or want? Ask gently, not like an interrogation.",
+      "Nurture. Offer what the vulnerable part needs — reassurance, acknowledgment, a kind hand — the way you would for someone you care about.",
+      "Afterwards, rest for a moment in whatever's left, without rushing to the next thing."
+    ],
+    q:"When you investigated, what did the emotion turn out to be protecting or afraid of?",
+    ex:"A structured way to feel something without being run by it. It can bring relief, and it can also intensify emotion before it eases. Go slower with strong material, and use grounding first if you're flooded.",
+    pf:"Using RAIN to get rid of the feeling faster — which is just avoidance wearing a mindfulness costume. The 'allow' step means genuinely letting it be there, not tolerating it for thirty seconds so it'll leave.",
+    r:["self-compassion","grounding-senses","noting","inner-critic","metta"]
+  },
+  {
+    id:"inner-critic", t:"Working with the inner critic", type:"difficult",
+    src:"Synthesis: MSC (Neff/Germer) & ACT defusion (Steven Hayes)",
+    qual:["self-comp","clarity","equanimity"],
+    spec:{dur:"5–10 min", fmt:"Silent or journaled", pos:"Any"},
+    steps:[
+      "Catch the critical voice in the act and note it: 'harsh self-talk is happening.'",
+      "Put a little distance between you and the thought. 'I'm having the thought that I'm a failure' lands differently than 'I'm a failure.'",
+      "Get curious about the critic's intent — it's often a clumsy attempt to protect you from failure or rejection.",
+      "Answer it the way a fair, kind mentor would: not by arguing it's wrong, but by adding what it left out.",
+      "Return to what you were actually doing."
+    ],
+    q:"If the critic is trying to protect you, what is it afraid would happen if it went quiet?",
+    ex:"You're not trying to silence or defeat the critic — that tends to make it louder. You're changing your relationship to it: noticing it as mental events, not verdicts.",
+    pf:"Turning it into an argument you have to win. Debating the critic keeps you fused to it. Defusion — seeing the thought as a thought — does more than rebuttal.",
+    r:["self-compassion","rain","noting"]
+  },
+  {
+    id:"walking", t:"Walking meditation", type:"movement",
+    src:"Kinhin (Zen) & Theravāda walking practice; secular use in MBSR",
+    qual:["attention","body-aware","grounding"],
+    spec:{dur:"10–20 min", fmt:"Silent, slow pace", pos:"Standing / walking a short path"},
+    steps:[
+      "Pick a lane of ten to fifteen steps, indoors or out. Stand still and feel the body standing.",
+      "Begin walking more slowly than usual. Feel each phase: lifting, moving, placing.",
+      "Let the sensations of the feet and legs be the anchor, the way the breath is in seated practice.",
+      "At the end of the lane, pause, turn with awareness, and walk back.",
+      "When the mind wanders, return to the feeling of walking. No destination — the walking is the point."
+    ],
+    q:"What did you notice in the body that you normally walk right past?",
+    ex:"A good option if sitting still is uncomfortable or makes you drowsy. The slowness feels strange at first and that's fine. Can be done at normal pace once familiar.",
+    pf:"Speeding up until it's just walking-while-thinking. The slow pace is what makes the sensations available; lose it and you lose the practice.",
+    r:["breath","scan","breathing-space"]
+  },
+  {
+    id:"breathing-space", t:"Three-minute breathing space", type:"movement",
+    src:"MBCT — Segal, Williams & Teasdale",
+    qual:["regulation","attention","grounding"],
+    spec:{dur:"3 min", fmt:"Silent, three stages", pos:"Any — desk, car, between meetings"},
+    steps:[
+      "Minute one — widen: acknowledge what's here right now. What thoughts, feelings, and body sensations are present? Just name them.",
+      "Minute two — narrow: bring attention to the breath, one breath at a time, as a single steady anchor.",
+      "Minute three — expand: widen attention back out to the whole body and the space around you, carrying that awareness into what's next.",
+      "That's it. A deliberate pause built to fit into an ordinary day."
+    ],
+    q:"What was already going on underneath, that you only noticed once you stopped to look?",
+    ex:"Built for real life — a reset between tasks, before a hard conversation, or when you notice you're on autopilot. In MBCT it's a core tool for stepping out of rumination.",
+    pf:"Rushing it as a productivity hack to 'get calm and get back to work.' The point is to change your relationship to the moment, not to optimize the next hour.",
+    r:["breath","grounding-senses","walking"]
+  },
+  {
+    id:"mountain", t:"Mountain meditation", type:"body",
+    src:"Jon Kabat-Zinn (Wherever You Go, There You Are)",
+    qual:["equanimity","grounding","non-striving"],
+    spec:{dur:"10–20 min", fmt:"Guided or silent, imagery-based", pos:"Seated, upright"},
+    steps:[
+      "Sit upright and stable. Feel the base of your body, solid and grounded.",
+      "Picture a mountain — its broad base, its still, dignified presence.",
+      "As you breathe, let yourself embody that stillness: settled, grounded, unmoved at the core.",
+      "Imagine weather moving across the mountain — storms, sun, seasons — while the mountain itself remains. Thoughts and moods are the weather; you are what stays.",
+      "Rest as the mountain for a while, then let the image dissolve and return to the body."
+    ],
+    q:"What's your 'weather' been lately — and could you sense anything steadier underneath it?",
+    ex:"An imagery practice, so it lands differently than sensation-based ones — some find it stabilizing, others find imagery not their mode. Either is fine.",
+    pf:"Using the 'unmoved mountain' image to suppress or bypass real feelings that need attention. Equanimity isn't detachment or a stone face — the weather is real; you're just not only the weather.",
+    r:["scan","open","metta"]
+  }
+];
+
+/* SITUATIONAL GUIDES — the 'what do I do right now' axis */
+const GUIDES = [
+  {id:"anxious", t:"When you're anxious", blurb:"Escalating, racing, can't settle.",
+   note:"Start with eyes open and grounded. Save closed-eye, inward practices for when the system has come down a notch.",
+   cards:["grounding-senses","breathing-space","breath","rain"]},
+  {id:"sleep", t:"Winding down for sleep", blurb:"Overthinking at night; can't switch off.",
+   note:"The aim is to rest attention, not to force sleep — chasing sleep keeps you awake. If sleep comes, fine; if not, you're still resting.",
+   cards:["scan","breath","metta"]},
+  {id:"desk", t:"Five minutes at your desk", blurb:"On autopilot, need a reset between tasks.",
+   note:"Short and eyes-optional. Built to fit a real workday.",
+   cards:["breathing-space","grounding-senses","breath"]},
+  {id:"pain", t:"Working with physical pain", blurb:"Discomfort or chronic pain you can't wait out.",
+   note:"Not a painkiller. It's about changing the relationship to sensation — and it's completely fine to stop or move if it's too much.",
+   cards:["scan","breath","open","mountain"]},
+  {id:"first-weeks", t:"Your first two weeks", blurb:"New to this and want a sane way in.",
+   note:"Follow the Start here path — this guide collects those same practices for quick reference.",
+   cards:["breath","grounding-senses","scan","breathing-space","metta"]},
+  {id:"self-kind", t:"Self-compassion in a hard moment", blurb:"Being brutal with yourself; something went wrong.",
+   note:"For the middle of the moment, not the cushion. Kindness here is not letting yourself off the hook.",
+   cards:["self-compassion","rain","inner-critic","metta"]},
+  {id:"restless", t:"When you can't sit still", blurb:"Too wired or restless to sit.",
+   note:"Movement and open eyes. Sitting still is a skill, not a prerequisite.",
+   cards:["walking","grounding-senses","breathing-space"]}
+];
+
+/* STARTER PATH — ordered two-week on-ramp */
+const PATH = [
+  {card:"breath", t:"Days 1–3 · Breath, 5 minutes", why:"Learn the core move: attention drifts, you notice, you return. Keep it short so it stays doable."},
+  {card:"grounding-senses", t:"Alongside · Five senses, anytime", why:"A pocket tool for when you're anxious or scattered. Eyes open, no cushion required."},
+  {card:"scan", t:"Days 4–7 · Body scan, 10 minutes", why:"Widen attention from breath to the whole body. Go gently — turning attention inward can surface more than expected, and you can always stop."},
+  {card:"breathing-space", t:"Days 8–10 · Three-minute breathing space", why:"Bring practice off the cushion and into the day — a reset you can actually use at work."},
+  {card:"metta", t:"Days 11–14 · Loving-kindness, 10 minutes", why:"Add the heart dimension. Don't force the feeling; practise the intention. Notice how you speak to yourself."}
+];
+
+/* ══════════════════════════════════════════════════════════
+   RENDER
+   ══════════════════════════════════════════════════════════ */
+const byId = id => P.find(p=>p.id===id);
+const typeName = id => (TYPES.find(t=>t.id===id)||{}).name || id;
+const qName = id => (QUALITIES.find(q=>q.id===id)||{}).name || id;
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function cardHTML(p){
+  const quals = p.qual.map(q=>`<button class="q-tag" data-qual="${q}">${qName(q)}</button>`).join("");
+  const steps = p.steps.map(s=>`<li>${esc(s)}</li>`).join("");
+  const rel = p.r.map(id=>{const t=byId(id); return t?`<a class="pill" data-goto-card="${id}">${esc(t.t)}</a>`:""}).join("");
+  return `
+  <div class="card card-open" id="card-${p.id}" data-card="${p.id}">
+    <div class="card-head" data-toggle>
+      <div class="card-top">
+        <div>
+          <div class="card-title">${esc(p.t)}</div>
+          <div class="card-source">${esc(p.src)}</div>
+        </div>
+        <div class="chev">Open</div>
+      </div>
+      <div class="qualities">${quals}</div>
+      <div class="spec">
+        <span><b>Duration</b> ${esc(p.spec.dur)}</span>
+        <span><b>Format</b> ${esc(p.spec.fmt)}</span>
+        <span><b>Posture</b> ${esc(p.spec.pos)}</span>
+      </div>
+    </div>
+    <div class="body">
+      <ol class="steps">${steps}</ol>
+      <div class="block prompt"><span class="lbl">Reflection</span><p>${esc(p.q)}</p></div>
+      <div class="block"><span class="lbl">What to expect</span><p>${esc(p.ex)}</p></div>
+      <div class="related"><span class="lbl">Related</span>${rel}</div>
+      <div class="pitfall"><span class="lbl">Common pitfall</span><p>${esc(p.pf)}</p></div>
+    </div>
+  </div>`;
+}
+
+/* Practices grouped by type */
+function renderPractices(){
+  const host = document.getElementById("practiceList");
+  host.innerHTML = TYPES.map((ty,i)=>{
+    const cards = P.filter(p=>p.type===ty.id).map(cardHTML).join("");
+    return `<div class="type-head"><span class="type-num">${String(i+1).padStart(2,"0")}</span><span class="type-name">${esc(ty.name)}</span></div>
+            <p class="type-desc">${esc(ty.desc)}</p>${cards}`;
+  }).join("");
+  document.getElementById("evNote").innerHTML =
+    "<strong>On the evidence.</strong> Programs like MBSR and MBCT have a real research base — MBCT, for instance, is associated with reduced relapse in recurrent depression. But effects are typically modest, vary between people, and much of the popular claim-making runs ahead of the data. And a few families here — the direct-path inquiries especially — sit largely outside that clinical literature: they're contemplative first-person investigations, best judged on the quality of the looking rather than on outcome studies, and their framing of consciousness is a claim to test in experience, not an established finding. Treat every card as a practice worth trying, not a guaranteed outcome.";
+}
+
+/* Qualities view */
+let activeQual = null;
+function renderQualities(){
+  const f = document.getElementById("qFilter");
+  f.innerHTML = QUALITIES.map(q=>{
+    const n = P.filter(p=>p.qual.includes(q.id)).length;
+    return `<button data-qfilter="${q.id}" aria-pressed="${activeQual===q.id}">${q.name}<span class="qcount">${n}</span></button>`;
+  }).join("");
+  const res = document.getElementById("qResult");
+  if(!activeQual){ res.innerHTML = `<p class="type-desc">Pick a quality above.</p>`; return; }
+  const cards = P.filter(p=>p.qual.includes(activeQual));
+  res.innerHTML = `<div class="type-head"><span class="type-name">${qName(activeQual)}</span></div>
+    <p class="type-desc">Practices most associated with developing ${qName(activeQual).toLowerCase()}.</p>`
+    + cards.map(cardHTML).join("");
+}
+
+/* Guides */
+function renderGuides(){
+  document.getElementById("guideList").innerHTML = GUIDES.map(g=>{
+    const items = g.cards.map((id,i)=>{const c=byId(id); if(!c)return"";
+      return `<li data-goto-card="${id}"><span class="g-idx">${i+1}</span><span class="g-name">${esc(c.t)}</span><span class="g-type">${esc(typeName(c.type))}</span></li>`;
+    }).join("");
+    return `<div class="guide" data-guide>
+      <div class="guide-head" data-guide-toggle>
+        <div><div class="guide-title">${esc(g.t)}</div><div class="guide-blurb">${esc(g.blurb)}</div></div>
+        <div class="chev">Open</div>
+      </div>
+      <div class="guide-body">
+        <p class="guide-note">${esc(g.note)}</p>
+        <ul class="guide-list">${items}</ul>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+/* Start-here path */
+function renderPath(){
+  document.getElementById("pathList").innerHTML = PATH.map((s,i)=>
+    `<div class="path-step"><div class="path-num">${i+1}</div>
+      <div class="path-body"><h3 data-goto-card="${s.card}">${esc(s.t)}</h3><p>${esc(s.why)}</p></div>
+    </div>`).join("");
+}
+
+/* Footer stats */
+function renderFoot(){
+  document.getElementById("footStats").textContent =
+    `${P.length} practices · ${TYPES.length} types · ${GUIDES.length} guides · ${QUALITIES.length} qualities`;
+}
+
+/* ── Cross-ref symmetry check (console only, per your discipline) ── */
+function checkRefs(){
+  const idset = new Set(P.map(p=>p.id));
+  let issues=[];
+  P.forEach(p=>{
+    (p.r||[]).forEach(r=>{
+      if(!idset.has(r)) issues.push(`${p.id} → missing "${r}"`);
+      else{ const t=byId(r); if(!(t.r||[]).includes(p.id)) issues.push(`asymmetric: ${p.id}→${r} but not back`); }
+    });
+  });
+  if(issues.length) console.warn("[cross-ref check]\n"+issues.join("\n"));
+  else console.log("[cross-ref check] all symmetric ✓");
+}
+
+/* ══════════════════════════════════════════════════════════
+   NAV + INTERACTION
+   ══════════════════════════════════════════════════════════ */
+const views = {practices:"v-practices",qualities:"v-qualities",guides:"v-guides",start:"v-start"};
+
+function showView(name){
+  Object.entries(views).forEach(([k,id])=>{
+    document.getElementById(id).classList.toggle("active",k===name);
+  });
+  document.querySelectorAll("#nav button").forEach(b=>
+    b.setAttribute("aria-current", b.dataset.view===name ? "true":"false"));
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+function openCard(id){
+  showView("practices");
+  // ensure qualities filter isn't hiding it: practices view always has all cards
+  requestAnimationFrame(()=>{
+    const el=document.getElementById("card-"+id);
+    if(el){
+      el.classList.add("open");
+      el.querySelector(".chev").textContent="Close";
+      el.scrollIntoView({behavior:"smooth",block:"start"});
+    }
+  });
+}
+
+document.addEventListener("click", e=>{
+  const nav = e.target.closest("#nav button");
+  if(nav){ showView(nav.dataset.view); location.hash=""; return; }
+
+  const goto = e.target.closest("[data-goto]");
+  if(goto){ showView(goto.dataset.goto); return; }
+
+  const gotoCard = e.target.closest("[data-goto-card]");
+  if(gotoCard){ e.preventDefault(); openCard(gotoCard.dataset.gotoCard); return; }
+
+  const qtag = e.target.closest(".q-tag");
+  if(qtag){ e.stopPropagation(); activeQual=qtag.dataset.qual; renderQualities(); showView("qualities"); return; }
+
+  const qfilter = e.target.closest("[data-qfilter]");
+  if(qfilter){ activeQual = activeQual===qfilter.dataset.qfilter ? null : qfilter.dataset.qfilter; renderQualities(); return; }
+
+  const toggle = e.target.closest("[data-toggle]");
+  if(toggle){
+    const card=toggle.closest(".card");
+    const open=card.classList.toggle("open");
+    card.querySelector(".chev").textContent = open?"Close":"Open";
+    return;
+  }
+
+  const gt = e.target.closest("[data-guide-toggle]");
+  if(gt){
+    const g=gt.closest(".guide");
+    const open=g.classList.toggle("open");
+    g.querySelector(".chev").textContent=open?"Close":"Open";
+    return;
+  }
+});
+
+/* deep links: #card-breath, #start, #guides … */
+function handleHash(){
+  const h=location.hash.replace("#","");
+  if(!h) return;
+  if(h.startsWith("card-")){ openCard(h.slice(5)); }
+  else if(views[h]){ showView(h); }
+}
+window.addEventListener("hashchange",handleHash);
+
+/* init */
+renderPractices();
+renderQualities();
+renderGuides();
+renderPath();
+renderFoot();
+checkRefs();
+handleHash();
+</script>
+</body>
+</html>
